@@ -1,35 +1,17 @@
-# chat.py
 import os
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.vectorstores import FAISS
 
-# ---- Read API key from environment variable / Streamlit Secrets ----
-api_key = os.getenv("OPENAI_API_KEY")
+# Assuming vectorstore is already loaded
+# vectorstore = FAISS.load_local("vectorstore", embeddings, allow_dangerous_deserialization=True)
 
-# ---- Load precomputed vectorstore ----
-embeddings = OpenAIEmbeddings(
-    base_url="https://genailab.tcs.in",
-    model="azure/genailab-maas-text-embedding",
-    openai_api_key=api_key
-)
-
-# vectorstore = FAISS.load_local("vectorstore", embeddings)
-
-# Now add the safe flag
-vectorstore = FAISS.load_local(
-    "vectorstore",
-    embeddings,
-    allow_dangerous_deserialization=True
-)
-
-# ---- Function to answer questions ----
 def ask_question(query):
-    # Create retriever from vectorstore
+    # Create retriever
     retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
     
-    # Correct way to get documents
-    docs = retriever.retrieve(query)  # <-- use retrieve(), not get_relevant_documents()
-    
+    # Call retriever as a function to get docs
+    docs = retriever(query)  # <-- This is the correct usage now
+
     # Combine context
     context = "\n\n".join([doc.page_content for doc in docs])
 
@@ -50,6 +32,6 @@ def ask_question(query):
     Question:
     {query}
     """
-    
+
     response = llm.invoke(prompt)
     return response.content
