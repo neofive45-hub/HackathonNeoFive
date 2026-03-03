@@ -17,11 +17,8 @@ vectorstore = FAISS.load_local(
 )
 
 def ask_question(query):
-    # Create retriever
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
-    
-    # Call retriever as a function to get docs
-    docs = retriever(query)  # <-- This is the correct usage now
+    # Get relevant documents directly from the vectorstore
+    docs = vectorstore.get_relevant_documents(query)  # Works in your version
 
     # Combine context
     context = "\n\n".join([doc.page_content for doc in docs])
@@ -43,6 +40,6 @@ def ask_question(query):
     Question:
     {query}
     """
-
+    
     response = llm.invoke(prompt)
     return response.content
