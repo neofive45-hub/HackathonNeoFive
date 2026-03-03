@@ -34,7 +34,7 @@ embeddings = OpenAIEmbeddings(
     base_url=BASE_URL,
     model="azure/genailab-maas-text-embedding-3-large",
     http_client=client,
-    openai_api_key="sk-"  # safe locally
+    openai_api_key="sk-NKg6tv3sqhMFjX5HxnM6IQ"  # safe locally
 )
 
 # ---- Store in FAISS vectorstore ----

@@ -13,7 +13,14 @@ embeddings = OpenAIEmbeddings(
     openai_api_key=api_key
 )
 
-vectorstore = FAISS.load_local("vectorstore", embeddings)
+# vectorstore = FAISS.load_local("vectorstore", embeddings)
+
+# Now add the safe flag
+vectorstore = FAISS.load_local(
+    "vectorstore",
+    embeddings,
+    allow_dangerous_deserialization=True
+)
 
 # ---- Function to answer questions ----
 def ask_question(query):
