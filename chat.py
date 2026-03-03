@@ -17,13 +17,13 @@ vectorstore = FAISS.load_local(
 )
 
 def ask_question(query):
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
-    
-    # ✅ Correct way for your LangChain version
-    docs = retriever.get_relevant_documents_from_query(query)
+    # Search for top 4 relevant chunks
+    docs = vectorstore.similarity_search(query, k=4)  # ✅ works in all versions
 
+    # Combine context
     context = "\n\n".join([doc.page_content for doc in docs])
 
+    # LLM for answering
     llm = ChatOpenAI(
         base_url="https://genailab.tcs.in",
         model="azure/genailab-maas-gpt-4o",
