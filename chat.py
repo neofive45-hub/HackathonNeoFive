@@ -1,6 +1,20 @@
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 import os
+
+# ---- Load vectorstore with embeddings ----
+embeddings = OpenAIEmbeddings(
+    base_url="https://genailab.tcs.in",
+    model="azure_ai/genailab-maas-DeepSeek-R1",  # embedding model
+    openai_api_key=os.getenv("OPENAI_API_KEY")
+)
+
+# Allow loading local pickle (safe because you created it)
+vectorstore = FAISS.load_local(
+    "vectorstore",
+    embeddings,
+    allow_dangerous_deserialization=True
+)
 
 # Load FAISS vectorstore
 vectorstore = FAISS.load_local(
