@@ -10,7 +10,7 @@ assert os.path.exists(os.path.join(TIKTOKEN_CACHE_DIR, "9b5ad71b2ce5302211f9c615
 # Load embeddings
 embeddings = OpenAIEmbeddings(
     base_url="https://genailab.tcs.in",
-    model="azure_ai/genailab-maas-DeepSeek-R1",
+    model="azure/genailab-maas-text-embedding-3-large",
     openai_api_key=os.getenv("OPENAI_API_KEY")
 )
 
