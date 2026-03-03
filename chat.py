@@ -11,7 +11,7 @@ assert os.path.exists(os.path.join(TIKTOKEN_CACHE_DIR, "9b5ad71b2ce5302211f9c615
 embeddings = OpenAIEmbeddings(
     base_url="https://genailab.tcs.in",
     model="azure/genailab-maas-text-embedding-3-large",
-    openai_api_key=os.getenv("OPENAI_API_KEY")
+    openai_api_key="sk-NKg6tv3sqhMFjX5HxnM6IQ"
 )
 
 # Load vectorstore safely
@@ -32,7 +32,7 @@ def ask_question(query):
     llm = ChatOpenAI(
         base_url="https://genailab.tcs.in",
         model="azure/genailab-maas-gpt-4o",
-        openai_api_key=os.getenv("OPENAI_API_KEY")
+        openai_api_key="sk-NKg6tv3sqhMFjX5HxnM6IQ"
     )
 
     prompt = f"""
