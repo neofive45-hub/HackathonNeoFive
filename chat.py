@@ -1,24 +1,20 @@
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.vectorstores import FAISS
 import os
 
-# ---- Load vectorstore with embeddings ----
-embeddings = OpenAIEmbeddings(
-    base_url="https://genailab.tcs.in",
-    model="azure_ai/genailab-maas-DeepSeek-R1",  # embedding model
-    openai_api_key=os.getenv("OPENAI_API_KEY")
-)
-
-# Allow loading local pickle (safe because you created it)
+# Load FAISS vectorstore
 vectorstore = FAISS.load_local(
     "vectorstore",
-    embeddings,
+    embeddings,  # already defined
     allow_dangerous_deserialization=True
 )
 
 def ask_question(query):
-    # Get relevant documents directly from the vectorstore
-    docs = vectorstore.get_relevant_documents(query)  # Works in your version
+    # Create a retriever object
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+
+    # Use the retriever's .get_relevant_documents() method
+    docs = retriever.get_relevant_documents(query)  # ✅ works in your version
 
     # Combine context
     context = "\n\n".join([doc.page_content for doc in docs])
