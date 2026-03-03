@@ -2,6 +2,11 @@ import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 
+TIKTOKEN_CACHE_DIR = os.path.abspath("tiktoken_cache")
+os.environ["TIKTOKEN_CACHE_DIR"] = TIKTOKEN_CACHE_DIR
+assert os.path.exists(os.path.join(TIKTOKEN_CACHE_DIR, "9b5ad71b2ce5302211f9c61530b329a4922fc6a4")), "tiktoken cache not found!"
+
+
 # Load embeddings
 embeddings = OpenAIEmbeddings(
     base_url="https://genailab.tcs.in",
